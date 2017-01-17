@@ -15,6 +15,7 @@
 		7827088D1E2E1C7400780361 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7827088B1E2E1C7400780361 /* LaunchScreen.storyboard */; };
 		782708981E2E1C7400780361 /* XXLinkLabelDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 782708971E2E1C7400780361 /* XXLinkLabelDemoTests.m */; };
 		782708A31E2E1C7400780361 /* XXLinkLabelDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 782708A21E2E1C7400780361 /* XXLinkLabelDemoUITests.m */; };
+		782708B31E2E1D3B00780361 /* XXLinkLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 782708B21E2E1D3B00780361 /* XXLinkLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		7827089E1E2E1C7400780361 /* XXLinkLabelDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XXLinkLabelDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		782708A21E2E1C7400780361 /* XXLinkLabelDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XXLinkLabelDemoUITests.m; sourceTree = "<group>"; };
 		782708A41E2E1C7400780361 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		782708B11E2E1D3B00780361 /* XXLinkLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XXLinkLabel.h; sourceTree = "<group>"; };
+		782708B21E2E1D3B00780361 /* XXLinkLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XXLinkLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,7 @@
 		7827087C1E2E1C7400780361 /* XXLinkLabelDemo */ = {
 			isa = PBXGroup;
 			children = (
+				782708B01E2E1D3B00780361 /* XXLinkLabel */,
 				782708801E2E1C7400780361 /* AppDelegate.h */,
 				782708811E2E1C7400780361 /* AppDelegate.m */,
 				782708831E2E1C7400780361 /* ViewController.h */,
@@ -138,6 +142,16 @@
 				782708A41E2E1C7400780361 /* Info.plist */,
 			);
 			path = XXLinkLabelDemoUITests;
+			sourceTree = "<group>";
+		};
+		782708B01E2E1D3B00780361 /* XXLinkLabel */ = {
+			isa = PBXGroup;
+			children = (
+				782708B11E2E1D3B00780361 /* XXLinkLabel.h */,
+				782708B21E2E1D3B00780361 /* XXLinkLabel.m */,
+			);
+			name = XXLinkLabel;
+			path = ../../XXLinkLabel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,6 +292,7 @@
 			files = (
 				782708851E2E1C7400780361 /* ViewController.m in Sources */,
 				782708821E2E1C7400780361 /* AppDelegate.m in Sources */,
+				782708B31E2E1D3B00780361 /* XXLinkLabel.m in Sources */,
 				7827087F1E2E1C7400780361 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
