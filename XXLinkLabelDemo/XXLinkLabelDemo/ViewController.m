@@ -9,11 +9,11 @@
 #import "ViewController.h"
 #import "XXLinkLabel.h"
 
-@interface ViewController ()
+@interface ViewController ()<UITextViewDelegate>
 
 @property (nonatomic , strong ) UITextView *textView;
 @property (nonatomic , strong ) UISegmentedControl *segment;
-//@property (nonatomic , strong ) u *switchBtn;
+@property (nonatomic , strong ) XXLinkLabel *showLabel;
 
 
 
@@ -30,7 +30,9 @@
     [self test];
     
 }
-
+- (void)textViewDidChange:(UITextView *)textView {
+    self.showLabel.text = textView.text;
+}
 
 - (void)labelImageClickLinkInfo:(XXLinkLabelModel *)linkInfo {
     NSLog(@"点击了图片对应的文字-------%@",linkInfo.message);
@@ -53,12 +55,11 @@
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.view endEditing:YES];;
 }
 
 
 - (void)test {
-    
     
     self.textView.backgroundColor = [UIColor yellowColor];
     self.segment.backgroundColor = [UIColor whiteColor];
@@ -81,6 +82,7 @@
     }
     
     label.text = @"#KINGLabel#This is a @KINGLabel Demo, access http://github.com/PittWong/KINGLabel can get the demo project. Follow @PittWong to get more information. 地lala图那时候is回家覅都是解放路口的设计方老师音乐hjkhjkdhshfdsfdskfdshjfkdsjkfjdsklfsd";
+    label.font = [UIFont systemFontOfSize:15];
     label.messageModels = models;
     label.delegate = self;
     
@@ -96,14 +98,15 @@
     label.regularLinkClickBlock = ^(NSString *clickedString) {
         NSLog(@"block点击了文字-------%@",clickedString);
     };
-    
+    label.regularType = XXLinkLabelRegularTypeAboat | XXLinkLabelRegularTypeTopic | XXLinkLabelRegularTypeUrl;
+    self.showLabel = label;
     [self.view addSubview:label];
     
     [label setPreferredMaxLayoutWidth:[UIScreen mainScreen].bounds.size.width - 20];
     label.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[label]-10-|" options:0 metrics:nil views:@{@"label": label}]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:300]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:200]];
     label.numberOfLines = 0;
     
     
@@ -122,11 +125,11 @@
     if (!_textView) {
         _textView = [[UITextView alloc]init];
         [self.view addSubview:_textView];
-        
+        _textView.delegate = self;
         _textView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_textView]-10-|" options:0 metrics:nil views:@{@"_textView": _textView}]];
         
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-64-[_textView(==100)]" options:0 metrics:nil views:@{@"_textView": _textView}]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-80-[_textView(==100)]" options:0 metrics:nil views:@{@"_textView": _textView}]];
     }
     return _textView;
 }
@@ -140,9 +143,9 @@
         [self.view addSubview:_segment];
         
         _segment.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-30-[_segment]-30-|" options:0 metrics:nil views:@{@"_segment": _segment}]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_segment]-40-|" options:0 metrics:nil views:@{@"_segment": _segment}]];
         
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-200-[_segment(==30)]" options:0 metrics:nil views:@{@"_segment": _segment}]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_segment(==30)]" options:0 metrics:nil views:@{@"_segment": _segment}]];
     }
     return _segment;
 }
