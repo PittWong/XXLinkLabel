@@ -8,10 +8,14 @@
 
 #import "ViewController.h"
 #import "XXLinkLabel.h"
+#import "DemoTabelView.h"
+#import "Masonry.h"
+#import "XXLazyKitHeader.h"
 
-@interface ViewController ()<UITextViewDelegate>
+@interface ViewController ()<UITextViewDelegate,DemoTabelViewDelegate>
 
 @property (nonatomic , strong ) UITextView *textView;
+@property (nonatomic , strong ) DemoTabelView *tabelView;
 @property (nonatomic , strong ) UISegmentedControl *segment;
 @property (nonatomic , strong ) XXLinkLabel *showLabel;
 
@@ -58,11 +62,20 @@
     [self.view endEditing:YES];;
 }
 
+- (void)tabelViewMessageDidChanged:(NSArray<XXLinkLabelModel *> *)messageModels {
+    self.showLabel.messageModels = messageModels;
+}
 
 - (void)test {
     
     self.textView.backgroundColor = [UIColor yellowColor];
     self.segment.backgroundColor = [UIColor whiteColor];
+    
+    [self.tabelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.textView);
+    }];
+    self.tabelView.hidden = YES;
+    self.tabelView.demoDelegate = self;
     
     NSArray *arr = @[@"随便的一点文字",@"https://www.syswin.com http://192.168.1.1",@"不知道高点啥abc:994",@"就这么牛逼吧",@"can get the demo project. Follow @PittWong to get more information"];
     XXLinkLabel *label = [[XXLinkLabel alloc]init];
@@ -110,13 +123,17 @@
     label.numberOfLines = 0;
     
     
+    
+    
 }
 
 - (void)segmentClick:(UISegmentedControl *)segment {
     if (segment.selectedSegmentIndex == 0) {
         self.textView.hidden = NO;
+        self.tabelView.hidden = YES;
     }else {
         self.textView.hidden = YES;
+        self.tabelView.hidden = NO;
     };
 }
 
@@ -150,5 +167,6 @@
     return _segment;
 }
 
+XXLazyAnyView(DemoTabelView, tabelView, self.view)
 
 @end

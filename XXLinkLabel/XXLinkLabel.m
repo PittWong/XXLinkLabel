@@ -62,7 +62,7 @@
             UIImage *image = messageModel.image;
             NSTextAttachment *textAttachment = [[NSTextAttachment alloc]init];
             textAttachment.image = image;
-            textAttachment.bounds = messageModel.imageShowSize.width ? CGRectMake(0, -0.15 * messageModel.imageShowSize.height, messageModel.imageShowSize.width, messageModel.imageShowSize.height) : CGRectMake(0, -0.15 * self.font.pointSize, self.font.pointSize, self.font.pointSize);
+            textAttachment.bounds = messageModel.imageShowSize.width && messageModel.imageShowSize.height ? CGRectMake(0, -0.15 * messageModel.imageShowSize.height, messageModel.imageShowSize.width, messageModel.imageShowSize.height) : CGRectMake(0, -0.15 * self.font.pointSize, self.font.pointSize, self.font.pointSize);
             NSAttributedString *attributeString = [NSAttributedString attributedStringWithAttachment:textAttachment];
             [attrStringM appendAttributedString:attributeString];
         }
@@ -538,7 +538,10 @@
 
 - (void)replaceUrlWithString:(NSString *)replaceString {
     
-    NSArray *patterns = @[@"[a-zA-Z]*://[a-zA-Z0-9/\\.]*"];
+    if (!replaceString.length) {
+        return;
+    }
+    NSArray *patterns = @[@"((http|ftp|https)://)(([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_\\./-~-]*)?"];
     
     NSRange regularRange = NSMakeRange(0, _message.length);
     

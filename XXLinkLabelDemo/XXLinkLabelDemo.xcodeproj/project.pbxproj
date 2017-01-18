@@ -20,7 +20,6 @@
 		785670571E2F0768008AEEE8 /* 222.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 785670551E2F0768008AEEE8 /* 222.jpg */; };
 		7856705A1E2F1094008AEEE8 /* DemoTabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 785670591E2F1094008AEEE8 /* DemoTabelView.m */; };
 		7856705D1E2F10B1008AEEE8 /* DemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7856705C1E2F10B1008AEEE8 /* DemoTableViewCell.m */; };
-		785670791E2F166D008AEEE8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7856705F1E2F166D008AEEE8 /* Info.plist */; };
 		7856707A1E2F166D008AEEE8 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 785670611E2F166D008AEEE8 /* MASCompositeConstraint.m */; };
 		7856707B1E2F166D008AEEE8 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 785670641E2F166D008AEEE8 /* MASConstraint.m */; };
 		7856707C1E2F166D008AEEE8 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 785670661E2F166D008AEEE8 /* MASConstraintMaker.m */; };
@@ -89,7 +88,6 @@
 		785670591E2F1094008AEEE8 /* DemoTabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoTabelView.m; sourceTree = "<group>"; };
 		7856705B1E2F10B1008AEEE8 /* DemoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoTableViewCell.h; sourceTree = "<group>"; };
 		7856705C1E2F10B1008AEEE8 /* DemoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoTableViewCell.m; sourceTree = "<group>"; };
-		7856705F1E2F166D008AEEE8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		785670601E2F166D008AEEE8 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
 		785670611E2F166D008AEEE8 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
 		785670621E2F166D008AEEE8 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
@@ -254,7 +252,6 @@
 		7856705E1E2F166D008AEEE8 /* Masonry */ = {
 			isa = PBXGroup;
 			children = (
-				7856705F1E2F166D008AEEE8 /* Info.plist */,
 				785670601E2F166D008AEEE8 /* MASCompositeConstraint.h */,
 				785670611E2F166D008AEEE8 /* MASCompositeConstraint.m */,
 				785670621E2F166D008AEEE8 /* MASConstraint+Private.h */,
@@ -431,7 +428,6 @@
 				7827088D1E2E1C7400780361 /* LaunchScreen.storyboard in Resources */,
 				785670571E2F0768008AEEE8 /* 222.jpg in Resources */,
 				785670D71E2F18CC008AEEE8 /* XXLazyKit.bundle in Resources */,
-				785670791E2F166D008AEEE8 /* Info.plist in Resources */,
 				785670561E2F0768008AEEE8 /* 111.jpg in Resources */,
 				7827088A1E2E1C7400780361 /* Assets.xcassets in Resources */,
 				782708881E2E1C7400780361 /* Main.storyboard in Resources */,

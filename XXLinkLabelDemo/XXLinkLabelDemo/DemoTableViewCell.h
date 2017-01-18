@@ -7,10 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+@class XXLinkLabelModel;
+
+
+@protocol DemoTableViewCellDelegate <NSObject>
+
+- (void)tabelViewCellChanged:(XXLinkLabelModel *)messageModel cellNumber:(NSInteger)cellNumber;
+
+@end
 
 @interface DemoTableViewCell : UITableViewCell
 
+@property (nonatomic ,weak) id <DemoTableViewCellDelegate> delegate;
 
 
+@property (nonatomic ,assign) NSInteger number;
 
 @end
