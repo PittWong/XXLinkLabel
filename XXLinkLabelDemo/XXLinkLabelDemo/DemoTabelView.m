@@ -12,7 +12,6 @@
 
 @interface DemoTabelView ()<UITableViewDelegate,UITableViewDataSource,DemoTableViewCellDelegate>
 
-@property (nonatomic ,strong) NSMutableArray *messageModels;
 
 @end
 
@@ -56,6 +55,7 @@
     if ([self.demoDelegate respondsToSelector:@selector(tabelViewMessageDidChanged:)]) {
         [self.demoDelegate tabelViewMessageDidChanged:self.messageModels];
     }
+    [self reloadData];
 }
 
 
@@ -64,7 +64,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.messageModels.count + 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

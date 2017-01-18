@@ -20,4 +20,6 @@
 
 @property (nonatomic , weak ) id <DemoTabelViewDelegate> demoDelegate;
 
+@property (nonatomic ,strong) NSMutableArray *messageModels;
+
 @end

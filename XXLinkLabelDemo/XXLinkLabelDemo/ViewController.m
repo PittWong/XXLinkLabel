@@ -32,6 +32,9 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self test];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self segmentClick:self.segment];
+    });
     
 }
 - (void)textViewDidChange:(UITextView *)textView {
@@ -76,53 +79,17 @@
     }];
     self.tabelView.hidden = YES;
     self.tabelView.demoDelegate = self;
+    self.showLabel.messageModels = [self getTestMessages];
+
     
-    NSArray *arr = @[@"随便的一点文字",@"https://www.syswin.com http://192.168.1.1",@"不知道高点啥abc:994",@"就这么牛逼吧",@"can get the demo project. Follow @PittWong to get more information"];
-    XXLinkLabel *label = [[XXLinkLabel alloc]init];
-    label.backgroundColor = [UIColor redColor];
-    NSMutableArray *models = [NSMutableArray array];
-    for (int i = 0; i < 20; i++) {
-        XXLinkLabelModel *messageModel = [[XXLinkLabelModel alloc]init];
-        NSInteger number = i % 4;
-        messageModel.message = number == 0 ? @"照片" : number == 1 ? @"地图" : arr[random() % 5];
-        if ([messageModel.message isEqualToString:@"照片"]) {
-            messageModel.imageName = @"111.jpg";
-        }else if ([messageModel.message isEqualToString:@"地图"]) {
-            messageModel.imageName = @"222.jpg";
-            
-        }
-        [models addObject:messageModel];
-    }
+    [self.showLabel setPreferredMaxLayoutWidth:[UIScreen mainScreen].bounds.size.width - 20];
+    _showLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
-    label.text = @"#KINGLabel#This is a @KINGLabel Demo, access http://github.com/PittWong/KINGLabel can get the demo project. Follow @PittWong to get more information. 地lala图那时候is回家覅都是解放路口的设计方老师音乐hjkhjkdhshfdsfdskfdshjfkdsjkfjdsklfsd";
-    label.font = [UIFont systemFontOfSize:15];
-    label.messageModels = models;
-    label.delegate = self;
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_showLabel]-10-|" options:0 metrics:nil views:@{@"_showLabel": _showLabel}]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:200]];
     
-    label.imageClickBlock = ^(XXLinkLabelModel *linkInfo) {
-        NSLog(@"block点击了图片对应的文字-------%@",linkInfo.message);
-    };
-    label.linkClickBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
-        NSLog(@"block点击了链接,链接地址为-------%@",linkUrl);
-    };
-    label.linkLongPressBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
-        NSLog(@"block长按了(点击)-----%@",linkUrl);
-    };
-    label.regularLinkClickBlock = ^(NSString *clickedString) {
-        NSLog(@"block点击了文字-------%@",clickedString);
-    };
-    label.regularType = XXLinkLabelRegularTypeAboat | XXLinkLabelRegularTypeTopic | XXLinkLabelRegularTypeUrl;
-    self.showLabel = label;
-    [self.view addSubview:label];
-    
-    [label setPreferredMaxLayoutWidth:[UIScreen mainScreen].bounds.size.width - 20];
-    label.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[label]-10-|" options:0 metrics:nil views:@{@"label": label}]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:200]];
-    label.numberOfLines = 0;
-    
-    
+    _showLabel.numberOfLines = 0;
+
     
     
 }
@@ -131,9 +98,11 @@
     if (segment.selectedSegmentIndex == 0) {
         self.textView.hidden = NO;
         self.tabelView.hidden = YES;
+        self.showLabel.text = self.textView.text;
     }else {
         self.textView.hidden = YES;
         self.tabelView.hidden = NO;
+        self.showLabel.messageModels = self.tabelView.messageModels;
     };
 }
 
@@ -143,6 +112,7 @@
         _textView = [[UITextView alloc]init];
         [self.view addSubview:_textView];
         _textView.delegate = self;
+        _textView.text = @"#KINGLabel#This is a @KINGLabel Demo, access http://github.com/PittWong/KINGLabel can get the demo project. Follow @PittWong to get more information. 地lala图那时候is回家覅都是解放路口的设计方老师音乐hjkhjkdhshfdsfdskfdshjfkdsjkfjdsklfsd";
         _textView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_textView]-10-|" options:0 metrics:nil views:@{@"_textView": _textView}]];
         
@@ -166,7 +136,51 @@
     }
     return _segment;
 }
+- (XXLinkLabel *)showLabel {
+    if (!_showLabel) {
+        XXLinkLabel *label = [[XXLinkLabel alloc]init];
+        label.backgroundColor = [UIColor redColor];
 
+        label.font = [UIFont systemFontOfSize:15];
+        label.delegate = self;
+        
+        label.imageClickBlock = ^(XXLinkLabelModel *linkInfo) {
+            NSLog(@"block点击了图片对应的文字-------%@",linkInfo.message);
+        };
+        label.linkClickBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
+            NSLog(@"block点击了链接,链接地址为-------%@",linkUrl);
+        };
+        label.linkLongPressBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
+            NSLog(@"block长按了(点击)-----%@",linkUrl);
+        };
+        label.regularLinkClickBlock = ^(NSString *clickedString) {
+            NSLog(@"block点击了文字-------%@",clickedString);
+        };
+        label.regularType = XXLinkLabelRegularTypeAboat | XXLinkLabelRegularTypeTopic | XXLinkLabelRegularTypeUrl;
+        _showLabel = label;
+        [self.view addSubview:label];
+    }
+    return _showLabel;
+}
 XXLazyAnyView(DemoTabelView, tabelView, self.view)
+
+- (NSArray *)getTestMessages {
+    NSArray *arr = @[@"随便的一点文字",@"https://www.syswin.com http://192.168.1.1",@"不知道高点啥abc:994",@"就这么牛逼吧",@"can get the demo project. Follow @PittWong to get more information"];
+    
+    NSMutableArray *models = [NSMutableArray array];
+    for (int i = 0; i < 20; i++) {
+        XXLinkLabelModel *messageModel = [[XXLinkLabelModel alloc]init];
+        NSInteger number = i % 4;
+        messageModel.message = number == 0 ? @"照片" : number == 1 ? @"地图" : arr[random() % 5];
+        if ([messageModel.message isEqualToString:@"照片"]) {
+            messageModel.imageName = @"111.jpg";
+        }else if ([messageModel.message isEqualToString:@"地图"]) {
+            messageModel.imageName = @"222.jpg";
+            
+        }
+        [models addObject:messageModel];
+    }
+    return models;
+}
 
 @end
