@@ -33,16 +33,16 @@
 
 - (void)tabelViewCellChanged:(XXLinkLabelModel *)messageModel cellNumber:(NSInteger)cellNumber {
     
-    messageModel.extend = @(cellNumber);
     NSInteger count = self.messageModels.count;
     for (int i = 0; i < count; i++) {
         XXLinkLabelModel *model = self.messageModels[i];
-        if ([model.extend integerValue] == cellNumber) {
+        NSDictionary *dict = model.extend;
+        if ([dict[@"number"] integerValue]== cellNumber) {
             self.messageModels[i] = messageModel;
             [self messageChanged];
             return;
         }
-        if ([model.extend integerValue] > cellNumber) {
+        if ([dict[@"number"] integerValue] > cellNumber) {
             [self.messageModels insertObject:messageModel atIndex:i];
             [self messageChanged];
             return;
@@ -72,6 +72,14 @@
     DemoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor blackColor];
     cell.userInteractionEnabled = indexPath.row != 0;
+    cell.model = nil;
+    for (XXLinkLabelModel *model in self.messageModels) {
+        NSDictionary *dict = model.extend;
+        if ([dict[@"number"] integerValue] == indexPath.row) {
+            cell.model = model;
+            break;
+        }
+    }
     cell.number = indexPath.row;
     cell.delegate = self;
 

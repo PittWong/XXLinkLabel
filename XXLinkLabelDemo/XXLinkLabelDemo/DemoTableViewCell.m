@@ -6,42 +6,38 @@
 //  Copyright © 2017年 王旭. All rights reserved.
 //
 
-//@property (nonatomic , copy ) NSString *message;        //显示的文字
-//
-////用于添加图片
-//@property (nonatomic ,strong) UIImage *image;           //富文本图片
-//@property (nonatomic , copy ) NSString *imageName;      //富文本图片名称
-//@property (nonatomic ,assign) CGSize imageShowSize;    //富文本图片要显示的大小  默认17*17
-//
-//@property (nonatomic ,strong) id extend;                //扩展参数提供传递任意类型属性
-//- (void)replaceUrlWithString:(NSString *)string;        //替换网络链接为指定文案
-
 #import "DemoTableViewCell.h"
 #import "Masonry.h"
 #import "XXLazyKitHeader.h"
 #import "XXLinkLabel.h"
 @interface DemoTableViewCell ()<UITextFieldDelegate>
 
-@property (nonatomic ,strong) UILabel *numberLabel;
-@property (nonatomic ,strong) UITextField *messageTextField;
-@property (nonatomic ,strong) UITextField *imageTextField;
-@property (nonatomic ,strong) UITextField *imageSizeXTextField;
-@property (nonatomic ,strong) UITextField *imageSizeYTextField;
-@property (nonatomic ,strong) UITextField *replaceUrlTextField;
-@property (nonatomic ,strong) UIView *bottomLine;
+@property (nonatomic ,weak) UILabel *numberLabel;
+@property (nonatomic ,weak) UITextField *messageTextField;
+@property (nonatomic ,weak) UITextField *imageTextField;
+@property (nonatomic ,weak) UITextField *imageSizeXTextField;
+@property (nonatomic ,weak) UITextField *imageSizeYTextField;
+@property (nonatomic ,weak) UITextField *replaceUrlTextField;
+@property (nonatomic ,weak) UIView *bottomLine;
 
-@property (nonatomic ,strong) XXLinkLabelModel *model;
 
 @end
 
 
 @implementation DemoTableViewCell
 
+- (void)setModel:(XXLinkLabelModel *)model {
+    
+    _model = model;
+    self.messageTextField.text = self.model.message;
+    self.imageTextField.text = self.model.imageName;
+    self.imageSizeXTextField.text = self.model.imageShowSize.width > 0 ? @(self.model.imageShowSize.width).stringValue : @"";
+    self.imageSizeYTextField.text = self.model.imageShowSize.height > 0 ? @(self.model.imageShowSize.height).stringValue : @"";
+    self.replaceUrlTextField.text = [(NSDictionary *)self.model.extend valueForKey:@"replaceString"];
+}
+
 
 - (void)setNumber:(NSInteger)number {
-    for (UIView *view in self.contentView.subviews) {
-        [view removeFromSuperview];
-    }
     _number = number;
     [self setupProperty];
     [self setupUI];
@@ -59,6 +55,12 @@
         self.imageSizeXTextField.textAlignment = NSTextAlignmentCenter;
         self.imageSizeYTextField.textAlignment = NSTextAlignmentCenter;
         self.replaceUrlTextField.textAlignment = NSTextAlignmentCenter;
+    }else {
+        self.messageTextField.textAlignment = NSTextAlignmentLeft;
+        self.imageTextField.textAlignment = NSTextAlignmentLeft;
+        self.imageSizeXTextField.textAlignment = NSTextAlignmentLeft;
+        self.imageSizeYTextField.textAlignment = NSTextAlignmentLeft;
+        self.replaceUrlTextField.textAlignment = NSTextAlignmentLeft;
     }
 }
 
@@ -69,6 +71,9 @@
     self.model.imageName = self.imageTextField.text;
     self.model.imageShowSize = CGSizeMake(self.imageSizeXTextField.text.floatValue, self.imageSizeYTextField.text.floatValue);
     [self.model replaceUrlWithString:self.replaceUrlTextField.text];
+    self.model.extend = @{@"number"         : @(self.number),
+                          @"replaceString"  : self.replaceUrlTextField.text};
+
     if ([self.delegate respondsToSelector:@selector(tabelViewCellChanged:cellNumber:)]) {
         [self.delegate tabelViewCellChanged:self.model cellNumber:self.number];
     }
@@ -144,6 +149,15 @@
     }];
     
 }
+
+- (XXLinkLabelModel *)model {
+    if (!_model) {
+        _model = [[XXLinkLabelModel alloc]init];
+    }
+    return _model;
+    
+}
+
 XXLazyLabel(numberLabel,self.contentView)
 XXLazyTextField(messageTextField,self.contentView)
 XXLazyTextField(imageTextField,self.contentView)
@@ -151,10 +165,5 @@ XXLazyTextField(imageSizeXTextField,self.contentView)
 XXLazyTextField(imageSizeYTextField,self.contentView)
 XXLazyTextField(replaceUrlTextField,self.contentView)
 XXLazyView(bottomLine, self.contentView)
-- (XXLinkLabelModel *)model {
-    if (!_model) {
-        _model = [[XXLinkLabelModel alloc]init];
-    }
-    return _model;
-}
+
 @end

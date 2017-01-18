@@ -16,10 +16,13 @@
 
 @end
 
-@interface DemoTableViewCell : UITableViewCell
+@interface DemoTableViewCell : UITableViewCell {
+    XXLinkLabelModel *_model;
+}
 
 @property (nonatomic ,weak) id <DemoTableViewCellDelegate> delegate;
 
+@property (nonatomic ,strong) XXLinkLabelModel *model;
 
 @property (nonatomic ,assign) NSInteger number;
 
