@@ -50,6 +50,7 @@
 
     
     [self addColorButtons];
+    [self addRegulerButtons];
     [self setupUI];
     
     
@@ -115,8 +116,14 @@
 }
 
 - (void)buttonClick:(UIButton *)button {
-    self.showLabel.linkTextColor = button.backgroundColor;
-    self.showLabel.attributedText = self.showLabel.attributedText;
+    if (button.tag) {
+        button.selected = !button.selected;
+        self.showLabel.regularType = self.showLabel.regularType ^ button.tag;
+        self.showLabel.attributedText = self.showLabel.attributedText;
+    }else {
+        self.showLabel.linkTextColor = button.backgroundColor;
+        self.showLabel.attributedText = self.showLabel.attributedText;
+    }
 }
 
 - (void)addColorButtons {
@@ -135,7 +142,32 @@
             make.height.equalTo(@18);
         }];
     }
+}
 
+- (void)addRegulerButtons {
+    NSArray *regulers = @[@"@xxx",@"#xxx#",@"http://"];
+    NSInteger count = regulers.count;
+    for (int i = 0; i < count; i++) {
+        NSString *reguler = regulers[i];
+        UIButton *button = [[UIButton alloc]init];
+        [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:button];
+        button.tag = 1<<i;
+        [button setTitle:reguler forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithWhite:0.8 alpha:1] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+        button.titleLabel.font = [UIFont systemFontOfSize:12];
+        
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view).offset(50);
+            make.width.equalTo(@50);
+            make.top.equalTo(self.view).offset(80 + 20 * i);
+            make.height.equalTo(@18);
+        }];
+        if (random() % 2 == 0) {
+            [self buttonClick:button];
+        }
+    }
 }
 
 - (void)segmentClick:(UISegmentedControl *)segment {
@@ -192,7 +224,7 @@
         label.regularLinkClickBlock = ^(NSString *clickedString) {
             NSLog(@"block点击了文字-------%@",clickedString);
         };
-        label.regularType = XXLinkLabelRegularTypeAboat | XXLinkLabelRegularTypeTopic | XXLinkLabelRegularTypeUrl;
+//        label.regularType = XXLinkLabelRegularTypeAboat | XXLinkLabelRegularTypeTopic | XXLinkLabelRegularTypeUrl;
         _showLabel = label;
         [self.view addSubview:label];
     }
