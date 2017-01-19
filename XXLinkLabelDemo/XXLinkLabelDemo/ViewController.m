@@ -20,7 +20,6 @@
 @property (nonatomic , strong ) XXLinkLabel *showLabel;
 
 
-
 @end
 
 
@@ -37,6 +36,35 @@
     });
     
 }
+
+
+- (void)test {
+    
+    self.textView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    self.segment.backgroundColor = [UIColor whiteColor];
+    
+    
+    self.tabelView.hidden = YES;
+    self.tabelView.demoDelegate = self;
+    self.showLabel.messageModels = [self getTestMessages];
+
+    
+    [self addColorButtons];
+    [self setupUI];
+    
+    
+    _showLabel.numberOfLines = 0;
+ 
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];;
+}
+
+- (void)tabelViewMessageDidChanged:(NSArray<XXLinkLabelModel *> *)messageModels {
+    self.showLabel.messageModels = messageModels;
+}
+
 - (void)textViewDidChange:(UITextView *)textView {
     self.showLabel.text = textView.text;
 }
@@ -61,37 +89,53 @@
 }
 
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];;
-}
-
-- (void)tabelViewMessageDidChanged:(NSArray<XXLinkLabelModel *> *)messageModels {
-    self.showLabel.messageModels = messageModels;
-}
-
-- (void)test {
+- (void)setupUI {
     
-    self.textView.backgroundColor = [UIColor yellowColor];
-    self.segment.backgroundColor = [UIColor whiteColor];
+    self.segment.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_segment]-40-|" options:0 metrics:nil views:@{@"_segment": _segment}]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_segment(==30)]" options:0 metrics:nil views:@{@"_segment": _segment}]];
+    
+    
+    
+    
+    
+    self.textView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_textView]-10-|" options:0 metrics:nil views:@{@"_textView": _textView}]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-150-[_textView(==100)]" options:0 metrics:nil views:@{@"_textView": _textView}]];
     
     [self.tabelView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.textView);
     }];
-    self.tabelView.hidden = YES;
-    self.tabelView.demoDelegate = self;
-    self.showLabel.messageModels = [self getTestMessages];
-
     
-    [self.showLabel setPreferredMaxLayoutWidth:[UIScreen mainScreen].bounds.size.width - 20];
-    _showLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    
+//    [self.showLabel setPreferredMaxLayoutWidth:[UIScreen mainScreen].bounds.size.width - 20];
+    self.showLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_showLabel]-10-|" options:0 metrics:nil views:@{@"_showLabel": _showLabel}]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:200]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:260]];
     
-    _showLabel.numberOfLines = 0;
+}
 
-    
-    
+- (void)buttonClick:(UIButton *)button {
+    self.showLabel.linkTextColor = button.backgroundColor;
+    self.showLabel.attributedText = self.showLabel.attributedText;
+}
+
+- (void)addColorButtons {
+    NSArray *colors = @[[UIColor redColor],[UIColor greenColor],[UIColor blueColor]];
+    NSInteger count = colors.count;
+    for (int i = 0; i < count; i++) {
+        UIColor *color = colors[i];
+        UIButton *button = [[UIButton alloc]init];
+        [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:button];
+        button.backgroundColor = color;
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view).offset(20);
+            make.width.equalTo(@20);
+            make.top.equalTo(self.view).offset(80 + 20 * i);
+            make.height.equalTo(@18);
+        }];
+    }
+
 }
 
 - (void)segmentClick:(UISegmentedControl *)segment {
@@ -113,10 +157,6 @@
         [self.view addSubview:_textView];
         _textView.delegate = self;
         _textView.text = @"#KINGLabel#This is a @KINGLabel Demo, access http://github.com/PittWong/KINGLabel can get the demo project. Follow @PittWong to get more information. 地lala图那时候is回家覅都是解放路口的设计方老师音乐hjkhjkdhshfdsfdskfdshjfkdsjkfjdsklfsd";
-        _textView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_textView]-10-|" options:0 metrics:nil views:@{@"_textView": _textView}]];
-        
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-80-[_textView(==100)]" options:0 metrics:nil views:@{@"_textView": _textView}]];
     }
     return _textView;
 }
@@ -129,17 +169,13 @@
         _segment.selectedSegmentIndex = 0;
         [self.view addSubview:_segment];
         
-        _segment.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_segment]-40-|" options:0 metrics:nil views:@{@"_segment": _segment}]];
-        
-        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_segment(==30)]" options:0 metrics:nil views:@{@"_segment": _segment}]];
     }
     return _segment;
 }
 - (XXLinkLabel *)showLabel {
     if (!_showLabel) {
         XXLinkLabel *label = [[XXLinkLabel alloc]init];
-        label.backgroundColor = [UIColor redColor];
+        label.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
 
         label.font = [UIFont systemFontOfSize:15];
         label.delegate = self;
