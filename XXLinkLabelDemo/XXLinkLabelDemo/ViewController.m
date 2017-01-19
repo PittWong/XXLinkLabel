@@ -119,10 +119,14 @@
     if (button.tag) {
         button.selected = !button.selected;
         self.showLabel.regularType = self.showLabel.regularType ^ button.tag;
-        self.showLabel.attributedText = self.showLabel.attributedText;
     }else {
         self.showLabel.linkTextColor = button.backgroundColor;
-        self.showLabel.attributedText = self.showLabel.attributedText;
+    }
+    
+    if (self.tabelView.hidden) {
+        self.showLabel.text = self.textView.text;
+    }else {
+        self.showLabel.messageModels = self.tabelView.messageModels;
     }
 }
 
