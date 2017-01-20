@@ -18,7 +18,7 @@
 @property (nonatomic , strong ) DemoTabelView *tabelView;
 @property (nonatomic , strong ) UISegmentedControl *segment;
 @property (nonatomic , strong ) XXLinkLabel *showLabel;
-
+@property (nonatomic , strong ) UILabel *showClickTextLabel;
 
 @end
 
@@ -100,22 +100,23 @@
 
 
 - (void)labelImageClickLinkInfo:(XXLinkLabelModel *)linkInfo {
-    NSLog(@"点击了图片对应的文字-------%@",linkInfo.message);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了图片对应的文字-------\n%@",linkInfo.message];
+    NSLog(@"点击了图片对应的文字-------\n%@",linkInfo.message);
 }
 
 - (void)labelLinkClickLinkInfo:(XXLinkLabelModel *)linkInfo linkUrl:(NSString *)linkUrl {
-    
-    NSLog(@"点击了链接,链接地址为-------%@",linkUrl);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了链接,链接地址为-------\n%@",linkUrl];
+    NSLog(@"点击了链接,链接地址为-------\n%@",linkUrl);
 }
 
 - (void)labelLinkLongPressLinkInfo:(XXLinkLabelModel *)linkInfo linkUrl:(NSString *)linkUrl {
-    
-    NSLog(@"长按了(点击)-----%@",linkUrl);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"长按了(点击)-----\n%@",linkUrl];
+    NSLog(@"长按了(点击)-----\n%@",linkUrl);
 }
 
 - (void)labelRegexLinkClickWithclickedString:(NSString *)clickedString {
-    
-    NSLog(@"点击了文字-------%@",clickedString);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了文字-------\n%@",clickedString];
+    NSLog(@"点击了文字-------\n%@",clickedString);
 }
 
 
@@ -124,6 +125,7 @@
     self.segment.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_segment]-40-|" options:0 metrics:nil views:@{@"_segment": _segment}]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_segment(==30)]" options:0 metrics:nil views:@{@"_segment": _segment}]];
+    
     
     self.textView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_textView]-10-|" options:0 metrics:nil views:@{@"_textView": _textView}]];
@@ -152,7 +154,7 @@
         [self.view addSubview:button];
         button.backgroundColor = color;
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset(30);
+            make.left.equalTo(self.view).offset(25);
             make.width.equalTo(@20);
             make.top.equalTo(self.view).offset(80 + 20 * i);
             make.height.equalTo(@18);
@@ -175,7 +177,7 @@
         button.titleLabel.font = [UIFont systemFontOfSize:12];
         
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset(70);
+            make.left.equalTo(self.view).offset(60);
             make.width.equalTo(@50);
             make.top.equalTo(self.view).offset(80 + 20 * i);
             make.height.equalTo(@18);
@@ -183,6 +185,21 @@
         if (random() % 2 == 0) {
             [self buttonClick:button];
         }
+        if (i == 0) {
+            [self.showClickTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(button.mas_right).offset(20);
+                make.right.equalTo(self.view).offset(-20);
+                make.top.equalTo(button);
+            }];
+        }else if (i == count - 1) {
+            [self.showClickTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.bottom.equalTo(button);
+            }];
+            self.showClickTextLabel.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+            self.showClickTextLabel.font = [UIFont systemFontOfSize:12];
+            self.showClickTextLabel.numberOfLines = 0;
+        }
+        
     }
 }
 
@@ -217,16 +234,20 @@
         label.delegate = self;
         
         label.imageClickBlock = ^(XXLinkLabelModel *linkInfo) {
-            NSLog(@"block点击了图片对应的文字-------%@",linkInfo.message);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了图片对应的文字-------\n%@",linkInfo.message];
+            NSLog(@"block点击了图片对应的文字-------\n%@",linkInfo.message);
         };
         label.linkClickBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
-            NSLog(@"block点击了链接,链接地址为-------%@",linkUrl);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了链接,链接地址为-------\n%@",linkUrl];
+            NSLog(@"block点击了链接,链接地址为-------\n%@",linkUrl);
         };
         label.linkLongPressBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
-            NSLog(@"block长按了(点击)-----%@",linkUrl);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"长按了-----\n%@",linkUrl];
+            NSLog(@"block长按了(点击)-----\n%@",linkUrl);
         };
         label.regularLinkClickBlock = ^(NSString *clickedString) {
-            NSLog(@"block点击了文字-------%@",clickedString);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了文字-------\n%@",clickedString];
+            NSLog(@"block点击了文字-------\n%@",clickedString);
         };
 //        label.regularType = XXLinkLabelRegularTypeAboat | XXLinkLabelRegularTypeTopic | XXLinkLabelRegularTypeUrl;
         _showLabel = label;
@@ -235,6 +256,7 @@
     return _showLabel;
 }
 XXLazyAnyView(DemoTabelView, tabelView, self.view)
+XXLazyLabel(showClickTextLabel, self.view);
 
 - (NSArray *)getTestMessages {
     NSArray *arr = @[@"@PittWong 与xx相关",@"https://github.com 网络链接",@"#XXLinkLabel# 话题",@"can get the demo project. Follow @PittWong to get more information"];
