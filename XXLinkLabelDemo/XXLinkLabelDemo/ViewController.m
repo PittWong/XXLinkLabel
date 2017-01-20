@@ -104,23 +104,23 @@
 
 
 - (void)labelImageClickLinkInfo:(XXLinkLabelModel *)linkInfo {
-    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了图片对应的文字-------\n%@",linkInfo.message];
-    NSLog(@"点击了图片对应的文字-------\n%@",linkInfo.message);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了图片对应的文字\n--------------\n%@",linkInfo.message];
+    NSLog(@"点击了图片对应的文字\n--------------\n%@",linkInfo.message);
 }
 
 - (void)labelLinkClickLinkInfo:(XXLinkLabelModel *)linkInfo linkUrl:(NSString *)linkUrl {
-    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了链接,链接地址为-------\n%@",linkUrl];
-    NSLog(@"点击了链接,链接地址为-------\n%@",linkUrl);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了链接,链接地址为\n--------------\n%@",linkUrl];
+    NSLog(@"点击了链接,链接地址为\n--------------\n%@",linkUrl);
 }
 
 - (void)labelLinkLongPressLinkInfo:(XXLinkLabelModel *)linkInfo linkUrl:(NSString *)linkUrl {
-    self.showClickTextLabel.text = [NSString stringWithFormat:@"长按了(点击)-----\n%@",linkUrl];
-    NSLog(@"长按了(点击)-----\n%@",linkUrl);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"长按了(点击)\n-----\n%@",linkUrl];
+    NSLog(@"长按了(点击)\n-----\n%@",linkUrl);
 }
 
 - (void)labelRegexLinkClickWithclickedString:(NSString *)clickedString {
-    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了文字-------\n%@",clickedString];
-    NSLog(@"点击了文字-------\n%@",clickedString);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了文字\n--------------\n%@",clickedString];
+    NSLog(@"点击了文字\n--------------\n%@",clickedString);
 }
 
 
@@ -163,6 +163,9 @@
             make.top.equalTo(self.view).offset(80 + 20 * i);
             make.height.equalTo(@18);
         }];
+        if (i == count - 1) {
+            [self buttonClick:button];
+        }
     }
 }
 
@@ -203,6 +206,7 @@
             self.showClickTextLabel.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
             self.showClickTextLabel.font = [UIFont systemFontOfSize:12];
             self.showClickTextLabel.numberOfLines = 0;
+            self.showClickTextLabel.textAlignment = NSTextAlignmentCenter;
         }
         [self.regulerButtons addObject:button];
     }
@@ -239,20 +243,20 @@
         label.delegate = self;
         
         label.imageClickBlock = ^(XXLinkLabelModel *linkInfo) {
-            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了图片对应的文字-------\n%@",linkInfo.message];
-            NSLog(@"block点击了图片对应的文字-------\n%@",linkInfo.message);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了图片对应的文字\n--------------\n%@",linkInfo.message];
+            NSLog(@"block点击了图片对应的文字\n--------------\n%@",linkInfo.message);
         };
         label.linkClickBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
-            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了链接,链接地址为-------\n%@",linkUrl];
-            NSLog(@"block点击了链接,链接地址为-------\n%@",linkUrl);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了链接,链接地址为\n--------------\n%@",linkUrl];
+            NSLog(@"block点击了链接,链接地址为\n--------------\n%@",linkUrl);
         };
         label.linkLongPressBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
-            self.showClickTextLabel.text = [NSString stringWithFormat:@"长按了-----\n%@",linkUrl];
-            NSLog(@"block长按了(点击)-----\n%@",linkUrl);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"长按了\n-----\n%@",linkUrl];
+            NSLog(@"block长按了(点击)\n-----\n%@",linkUrl);
         };
         label.regularLinkClickBlock = ^(NSString *clickedString) {
-            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了文字-------\n%@",clickedString];
-            NSLog(@"block点击了文字-------\n%@",clickedString);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了文字\n--------------\n%@",clickedString];
+            NSLog(@"block点击了文字\n--------------\n%@",clickedString);
         };
 //        label.regularType = XXLinkLabelRegularTypeAboat | XXLinkLabelRegularTypeTopic | XXLinkLabelRegularTypeUrl;
         _showLabel = label;
