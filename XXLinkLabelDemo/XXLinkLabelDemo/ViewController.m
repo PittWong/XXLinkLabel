@@ -11,6 +11,7 @@
 #import "DemoTabelView.h"
 #import "Masonry.h"
 #import "XXLazyKitHeader.h"
+#import "XXLinkLabel+showed.h"
 
 @interface ViewController ()<UITextViewDelegate,DemoTabelViewDelegate>
 
@@ -44,6 +45,7 @@
     self.textView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
     self.segment.backgroundColor = [UIColor whiteColor];
     
+    self.showLabel.numberOfLines = 0;
     
     self.tabelView.hidden = YES;
     self.tabelView.demoDelegate = self;
@@ -54,13 +56,17 @@
     [self setupUI];
     
     
-    _showLabel.numberOfLines = 0;
  
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.tabelView endEditing:YES];
     [self.textView endEditing:YES];
+//    NSInteger index = [self.showLabel getLastShowedChartIndex];
+//    NSString *string = [self.showLabel.attributedText.string substringToIndex:index+1];
+//    [self.showLabel replaceOverstepStringWithString:@"...全文\n"];
+//    [self.showLabel addRegularString:@"...全文"];
+
 }
 
 - (void)tabelViewMessageDidChanged:(NSArray<XXLinkLabelModel *> *)messageModels {
