@@ -110,23 +110,23 @@
 
 
 - (void)labelImageClickLinkInfo:(XXLinkLabelModel *)linkInfo {
-    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了图片对应的文字\n--------------\n%@",linkInfo.message];
-    NSLog(@"点击了图片对应的文字\n--------------\n%@",linkInfo.message);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"----点击了图片----\n%@\n----对应反馈文字----\n%@",linkInfo.message,linkInfo.imageClickBackStr];
+    NSLog(@"----点击了图片----\n%@\n----对应反馈文字----\n%@",linkInfo.message,linkInfo.imageClickBackStr);
 }
 
 - (void)labelLinkClickLinkInfo:(XXLinkLabelModel *)linkInfo linkUrl:(NSString *)linkUrl {
-    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了链接,链接地址为\n--------------\n%@",linkUrl];
-    NSLog(@"点击了链接,链接地址为\n--------------\n%@",linkUrl);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"----点击了链接,链接地址为----\n%@",linkUrl];
+    NSLog(@"----点击了链接,链接地址为----\n%@",linkUrl);
 }
 
 - (void)labelLinkLongPressLinkInfo:(XXLinkLabelModel *)linkInfo linkUrl:(NSString *)linkUrl {
-    self.showClickTextLabel.text = [NSString stringWithFormat:@"长按了(点击)\n-----\n%@",linkUrl];
-    NSLog(@"长按了(点击)\n-----\n%@",linkUrl);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"----长按了(点击)-----\n%@",linkUrl];
+    NSLog(@"----长按了(点击)-----\n%@",linkUrl);
 }
 
 - (void)labelRegexLinkClickWithclickedString:(NSString *)clickedString {
-    self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了文字\n--------------\n%@",clickedString];
-    NSLog(@"点击了文字\n--------------\n%@",clickedString);
+    self.showClickTextLabel.text = [NSString stringWithFormat:@"----点击了文字----\n%@",clickedString];
+    NSLog(@"----点击了文字----\n%@",clickedString);
 }
 
 
@@ -249,20 +249,20 @@
         label.delegate = self;
         
         label.imageClickBlock = ^(XXLinkLabelModel *linkInfo) {
-            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了图片对应的文字\n--------------\n%@",linkInfo.message];
-            NSLog(@"block点击了图片对应的文字\n--------------\n%@",linkInfo.message);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"----点击了图片----\n%@\n----对应反馈文字----\n%@",linkInfo.message,linkInfo.imageClickBackStr];
+            NSLog(@"----点击了图片----\n%@\n----对应反馈文字----\n%@",linkInfo.message,linkInfo.imageClickBackStr);
         };
         label.linkClickBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
-            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了链接,链接地址为\n--------------\n%@",linkUrl];
-            NSLog(@"block点击了链接,链接地址为\n--------------\n%@",linkUrl);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"----点击了链接,链接地址为----\n%@",linkUrl];
+            NSLog(@"----block点击了链接,链接地址为----\n%@",linkUrl);
         };
         label.linkLongPressBlock = ^(XXLinkLabelModel *linkInfo, NSString *linkUrl) {
-            self.showClickTextLabel.text = [NSString stringWithFormat:@"长按了\n-----\n%@",linkUrl];
-            NSLog(@"block长按了(点击)\n-----\n%@",linkUrl);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"----长按了-----\n%@",linkUrl];
+            NSLog(@"----block长按了(点击)-----\n%@",linkUrl);
         };
         label.regularLinkClickBlock = ^(NSString *clickedString) {
-            self.showClickTextLabel.text = [NSString stringWithFormat:@"点击了文字\n--------------\n%@",clickedString];
-            NSLog(@"block点击了文字\n--------------\n%@",clickedString);
+            self.showClickTextLabel.text = [NSString stringWithFormat:@"----点击了文字----\n%@",clickedString];
+            NSLog(@"----block点击了文字----\n%@",clickedString);
         };
 //        label.regularType = XXLinkLabelRegularTypeAboat | XXLinkLabelRegularTypeTopic | XXLinkLabelRegularTypeUrl;
         _showLabel = label;
@@ -284,10 +284,11 @@ XXLazyLabel(showClickTextLabel, self.view);
         if ([messageModel.message isEqualToString:@"照片"]) {
             messageModel.imageName = i % 3 == 1 ? @"222.jpg" : @"111.jpg";
             messageModel.imageShowSize = i % 3 == 0 ? CGSizeMake(20, 25) : CGSizeZero;
+            messageModel.imageClickBackStr = [NSString stringWithFormat:@"地址?:http://cccddd/%@",messageModel.imageName];
         }else if ([messageModel.message isEqualToString:@"地图"]) {
             messageModel.imageName = i % 3 == 1 ? @"地图2.jpg" : @"地图1.jpg";
             messageModel.imageShowSize = i % 3 == 0 ? CGSizeMake(10, 10) : CGSizeZero;
-            
+            messageModel.imageClickBackStr = [NSString stringWithFormat:@"地址?:http://cccddd/%@",messageModel.imageName];
         }
         messageModel.extend = @{@"number"         : @(i + 1),
                                 @"replaceString"  : @""};
