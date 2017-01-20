@@ -19,6 +19,7 @@
 @property (nonatomic , strong ) UISegmentedControl *segment;
 @property (nonatomic , strong ) XXLinkLabel *showLabel;
 @property (nonatomic , strong ) UILabel *showClickTextLabel;
+@property (nonatomic , strong ) NSMutableArray *regulerButtons;
 
 @end
 
@@ -46,7 +47,6 @@
     
     self.tabelView.hidden = YES;
     self.tabelView.demoDelegate = self;
-//    self.showLabel.messageModels = [self getTestMessages];
     self.tabelView.messageModels = [[self getTestMessages] mutableCopy];
     
     [self addColorButtons];
@@ -77,6 +77,10 @@
         self.showLabel.regularType = self.showLabel.regularType ^ button.tag;
     }else {
         self.showLabel.linkTextColor = button.backgroundColor;
+        for (UIButton *btn in self.regulerButtons) {
+            [btn setTitleColor:button.backgroundColor forState:UIControlStateSelected];
+        }
+        self.showClickTextLabel.textColor = button.backgroundColor;
     }
     
     if (self.tabelView.hidden) {
@@ -129,7 +133,7 @@
     
     self.textView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_textView]-10-|" options:0 metrics:nil views:@{@"_textView": _textView}]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-150-[_textView(==100)]" options:0 metrics:nil views:@{@"_textView": _textView}]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-150-[_textView(==80)]" options:0 metrics:nil views:@{@"_textView": _textView}]];
     
     [self.tabelView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.textView);
@@ -138,7 +142,7 @@
 //    [self.showLabel setPreferredMaxLayoutWidth:[UIScreen mainScreen].bounds.size.width - 20];
     self.showLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_showLabel]-10-|" options:0 metrics:nil views:@{@"_showLabel": _showLabel}]];
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:260]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_showLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0 constant:240]];
     
 }
 
@@ -165,6 +169,7 @@
 - (void)addRegulerButtons {
     NSArray *regulers = @[@"@xxx",@"#xxx#",@"http://"];
     NSInteger count = regulers.count;
+    self.regulerButtons = [NSMutableArray array];
     for (int i = 0; i < count; i++) {
         NSString *reguler = regulers[i];
         UIButton *button = [[UIButton alloc]init];
@@ -199,7 +204,7 @@
             self.showClickTextLabel.font = [UIFont systemFontOfSize:12];
             self.showClickTextLabel.numberOfLines = 0;
         }
-        
+        [self.regulerButtons addObject:button];
     }
 }
 
@@ -230,7 +235,7 @@
         XXLinkLabel *label = [[XXLinkLabel alloc]init];
         label.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
 
-        label.font = [UIFont systemFontOfSize:15];
+        label.font = [UIFont systemFontOfSize:12];
         label.delegate = self;
         
         label.imageClickBlock = ^(XXLinkLabelModel *linkInfo) {
