@@ -69,6 +69,8 @@ typedef NS_OPTIONS(NSUInteger, XXLinkLabelRegularType) {
 @property (nonatomic ,strong) UIImage *image;           //富文本图片
 @property (nonatomic , copy ) NSString *imageName;      //富文本图片名称
 @property (nonatomic ,assign) CGSize imageShowSize;    //富文本图片要显示的大小  默认17*17
+@property (nonatomic , copy ) NSString *imageClickBackStr;           //图片点击反馈字符串
+
 
 @property (nonatomic ,strong) id extend;                //扩展参数提供传递任意类型属性
 - (void)replaceUrlWithString:(NSString *)string;        //替换网络链接为指定文案
