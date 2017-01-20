@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		780C11DE1E31A71D0075B267 /* 地图1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 780C11DD1E31A71D0075B267 /* 地图1.jpg */; };
+		780C11E01E31A8ED0075B267 /* 地图2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 780C11DF1E31A8ED0075B267 /* 地图2.jpg */; };
 		7827087F1E2E1C7400780361 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7827087E1E2E1C7400780361 /* main.m */; };
 		782708821E2E1C7400780361 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 782708811E2E1C7400780361 /* AppDelegate.m */; };
 		782708851E2E1C7400780361 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782708841E2E1C7400780361 /* ViewController.m */; };
@@ -64,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		780C11DD1E31A71D0075B267 /* 地图1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "地图1.jpg"; sourceTree = "<group>"; };
+		780C11DF1E31A8ED0075B267 /* 地图2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "地图2.jpg"; sourceTree = "<group>"; };
 		7827087A1E2E1C7400780361 /* XXLinkLabelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XXLinkLabelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7827087E1E2E1C7400780361 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		782708801E2E1C7400780361 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -202,6 +206,8 @@
 				7856705C1E2F10B1008AEEE8 /* DemoTableViewCell.m */,
 				785670541E2F0768008AEEE8 /* 111.jpg */,
 				785670551E2F0768008AEEE8 /* 222.jpg */,
+				780C11DD1E31A71D0075B267 /* 地图1.jpg */,
+				780C11DF1E31A8ED0075B267 /* 地图2.jpg */,
 				785670AF1E2F18CC008AEEE8 /* XXLazyKit */,
 				7856705E1E2F166D008AEEE8 /* Masonry */,
 				782708861E2E1C7400780361 /* Main.storyboard */,
@@ -431,6 +437,8 @@
 				785670561E2F0768008AEEE8 /* 111.jpg in Resources */,
 				7827088A1E2E1C7400780361 /* Assets.xcassets in Resources */,
 				782708881E2E1C7400780361 /* Main.storyboard in Resources */,
+				780C11E01E31A8ED0075B267 /* 地图2.jpg in Resources */,
+				780C11DE1E31A71D0075B267 /* 地图1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

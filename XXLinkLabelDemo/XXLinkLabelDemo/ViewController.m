@@ -46,8 +46,8 @@
     
     self.tabelView.hidden = YES;
     self.tabelView.demoDelegate = self;
-    self.showLabel.messageModels = [self getTestMessages];
-
+//    self.showLabel.messageModels = [self getTestMessages];
+    self.tabelView.messageModels = [[self getTestMessages] mutableCopy];
     
     [self addColorButtons];
     [self addRegulerButtons];
@@ -59,7 +59,8 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];;
+    [self.tabelView endEditing:YES];
+    [self.textView endEditing:YES];
 }
 
 - (void)tabelViewMessageDidChanged:(NSArray<XXLinkLabelModel *> *)messageModels {
@@ -69,6 +70,34 @@
 - (void)textViewDidChange:(UITextView *)textView {
     self.showLabel.text = textView.text;
 }
+
+- (void)buttonClick:(UIButton *)button {
+    if (button.tag) {
+        button.selected = !button.selected;
+        self.showLabel.regularType = self.showLabel.regularType ^ button.tag;
+    }else {
+        self.showLabel.linkTextColor = button.backgroundColor;
+    }
+    
+    if (self.tabelView.hidden) {
+        self.showLabel.text = self.textView.text;
+    }else {
+        self.showLabel.messageModels = self.tabelView.messageModels;
+    }
+}
+
+- (void)segmentClick:(UISegmentedControl *)segment {
+    if (segment.selectedSegmentIndex == 0) {
+        self.textView.hidden = NO;
+        self.tabelView.hidden = YES;
+        self.showLabel.text = self.textView.text;
+    }else {
+        self.textView.hidden = YES;
+        self.tabelView.hidden = NO;
+        self.showLabel.messageModels = self.tabelView.messageModels;
+    };
+}
+
 
 - (void)labelImageClickLinkInfo:(XXLinkLabelModel *)linkInfo {
     NSLog(@"点击了图片对应的文字-------%@",linkInfo.message);
@@ -96,10 +125,6 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_segment]-40-|" options:0 metrics:nil views:@{@"_segment": _segment}]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-40-[_segment(==30)]" options:0 metrics:nil views:@{@"_segment": _segment}]];
     
-    
-    
-    
-    
     self.textView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_textView]-10-|" options:0 metrics:nil views:@{@"_textView": _textView}]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-150-[_textView(==100)]" options:0 metrics:nil views:@{@"_textView": _textView}]];
@@ -115,20 +140,7 @@
     
 }
 
-- (void)buttonClick:(UIButton *)button {
-    if (button.tag) {
-        button.selected = !button.selected;
-        self.showLabel.regularType = self.showLabel.regularType ^ button.tag;
-    }else {
-        self.showLabel.linkTextColor = button.backgroundColor;
-    }
-    
-    if (self.tabelView.hidden) {
-        self.showLabel.text = self.textView.text;
-    }else {
-        self.showLabel.messageModels = self.tabelView.messageModels;
-    }
-}
+
 
 - (void)addColorButtons {
     NSArray *colors = @[[UIColor redColor],[UIColor greenColor],[UIColor blueColor]];
@@ -140,7 +152,7 @@
         [self.view addSubview:button];
         button.backgroundColor = color;
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset(20);
+            make.left.equalTo(self.view).offset(30);
             make.width.equalTo(@20);
             make.top.equalTo(self.view).offset(80 + 20 * i);
             make.height.equalTo(@18);
@@ -163,7 +175,7 @@
         button.titleLabel.font = [UIFont systemFontOfSize:12];
         
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset(50);
+            make.left.equalTo(self.view).offset(70);
             make.width.equalTo(@50);
             make.top.equalTo(self.view).offset(80 + 20 * i);
             make.height.equalTo(@18);
@@ -174,25 +186,13 @@
     }
 }
 
-- (void)segmentClick:(UISegmentedControl *)segment {
-    if (segment.selectedSegmentIndex == 0) {
-        self.textView.hidden = NO;
-        self.tabelView.hidden = YES;
-        self.showLabel.text = self.textView.text;
-    }else {
-        self.textView.hidden = YES;
-        self.tabelView.hidden = NO;
-        self.showLabel.messageModels = self.tabelView.messageModels;
-    };
-}
-
 
 - (UITextView *)textView {
     if (!_textView) {
         _textView = [[UITextView alloc]init];
         [self.view addSubview:_textView];
         _textView.delegate = self;
-        _textView.text = @"#KINGLabel#This is a @KINGLabel Demo, access http://github.com/PittWong/KINGLabel can get the demo project. Follow @PittWong to get more information. 地lala图那时候is回家覅都是解放路口的设计方老师音乐hjkhjkdhshfdsfdskfdshjfkdsjkfjdsklfsd";
+        _textView.text = @"#XXLinkLabel# This is a @XXLinkLabel Demo, access https://github.com/PittWong/XXLinkLabel can get the demo project. Follow @PittWong to get more information. 部分思路借鉴于@FFLabel,在此向大神致敬";
     }
     return _textView;
 }
@@ -237,19 +237,23 @@
 XXLazyAnyView(DemoTabelView, tabelView, self.view)
 
 - (NSArray *)getTestMessages {
-    NSArray *arr = @[@"随便的一点文字",@"https://www.syswin.com http://192.168.1.1",@"不知道高点啥abc:994",@"就这么牛逼吧",@"can get the demo project. Follow @PittWong to get more information"];
+    NSArray *arr = @[@"@PittWong 与xx相关",@"https://github.com 网络链接",@"#XXLinkLabel# 话题",@"can get the demo project. Follow @PittWong to get more information"];
     
     NSMutableArray *models = [NSMutableArray array];
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 10; i++) {
         XXLinkLabelModel *messageModel = [[XXLinkLabelModel alloc]init];
         NSInteger number = i % 4;
-        messageModel.message = number == 0 ? @"照片" : number == 1 ? @"地图" : arr[random() % 5];
+        messageModel.message = number == 0 ? @"照片" : number == 1 ? @"地图" : arr[random() % 4];
         if ([messageModel.message isEqualToString:@"照片"]) {
-            messageModel.imageName = @"111.jpg";
+            messageModel.imageName = i % 3 == 1 ? @"222.jpg" : @"111.jpg";
+            messageModel.imageShowSize = i % 3 == 0 ? CGSizeMake(20, 25) : CGSizeZero;
         }else if ([messageModel.message isEqualToString:@"地图"]) {
-            messageModel.imageName = @"222.jpg";
+            messageModel.imageName = i % 3 == 1 ? @"地图2.jpg" : @"地图1.jpg";
+            messageModel.imageShowSize = i % 3 == 0 ? CGSizeMake(10, 10) : CGSizeZero;
             
         }
+        messageModel.extend = @{@"number"         : @(i + 1),
+                                @"replaceString"  : @""};
         [models addObject:messageModel];
     }
     return models;
