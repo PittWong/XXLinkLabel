@@ -10,7 +10,8 @@
 
 @interface XXLinkLabel (showed)
 
-- (NSInteger)getLastShowedChartIndex;
-- (NSString *)replaceOverstepStringWithString:(NSString *)string;
+@property (nonatomic, readonly) NSString *visibleString;  //可见的文字
+- (NSInteger)getLastShowedChartIndex;                     //最后一个可见文字坐标
+- (NSString *)replaceOverstepStringWithString:(NSString *)string;  //替换可见区域内后面部分文字
 
 @end

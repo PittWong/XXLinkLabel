@@ -27,6 +27,12 @@
 @implementation XXLinkLabel (showed)
 
 
+- (NSString *)visibleString {
+    NSInteger index = [self getLastShowedChartIndex];
+    NSString *string = [self.attributedText.string substringToIndex:index+1];
+    return string;
+}
+
 - (NSInteger)getLastShowedChartIndex {
     
     NSRange glyphsRange = [self glyphsRange];
