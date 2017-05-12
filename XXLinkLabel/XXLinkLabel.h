@@ -31,6 +31,8 @@ typedef NS_OPTIONS(NSUInteger, XXLinkLabelRegularType) {
 //正则文字点击
 - (void)labelRegularLinkClickWithclickedString:(NSString *)clickedString;
 
+//label自身被点击
+- (void)labelClickedWithExtend:(id)extend;
 @end
 
 
@@ -44,6 +46,7 @@ typedef NS_OPTIONS(NSUInteger, XXLinkLabelRegularType) {
 @property (nonatomic ,strong) UIColor *linkTextColor;
 @property (nonatomic ,strong) UIColor *selectedBackgroudColor;
 @property (nonatomic , weak ) id delegate;
+@property (nonatomic ,strong) id extend;                //扩展参数提供传递任意类型属性
 
 //model图片被点击
 @property (nonatomic, copy) void (^imageClickBlock)(XXLinkLabelModel *linkInfo);
@@ -53,6 +56,9 @@ typedef NS_OPTIONS(NSUInteger, XXLinkLabelRegularType) {
 @property (nonatomic, copy) void (^linkLongPressBlock)(XXLinkLabelModel *linkInfo, NSString *linkUrl);
 //正则文字点击
 @property (nonatomic, copy) void (^regularLinkClickBlock)(NSString *clickedString);
+
+@property (nonatomic, copy) void (^labelClickedBlock)(id extend);
+
 
 //添加正则表达式规则
 - (void)addRegularString:(NSString *)regularString;

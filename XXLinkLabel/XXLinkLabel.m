@@ -355,9 +355,16 @@
         if (self.regularLinkClickBlock) {
             self.regularLinkClickBlock(string);
         }
+        [self modifySelectedAttribute:NO];
+        return;
     }
     [self modifySelectedAttribute:NO];
-  
+    if ([self.delegate respondsToSelector:@selector(labelClickedWithExtend:)]) {
+        [self.delegate labelClickedWithExtend:self.extend];
+    }
+    if (self.labelClickedBlock) {
+        self.labelClickedBlock(self.extend);
+    }
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
